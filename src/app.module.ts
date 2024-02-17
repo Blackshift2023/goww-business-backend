@@ -8,6 +8,7 @@ import { typeOrmConfig } from './config/typeorm.config';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { AddressModule } from './modules/address/address.module';
+import { CategoryModule } from './modules/category/category.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AddressModule } from './modules/address/address.module';
     AuthModule,
     UsersModule,
     AddressModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
