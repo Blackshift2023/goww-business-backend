@@ -21,8 +21,7 @@ async function bootstrap() {
   writeFileSync('./swagger-spec.json', JSON.stringify(document));
   await app.listen(process.env.APP_PORT);
   logger.log(
-    `Application is running on: ${await app.getUrl()}, process id: ${
-      process.pid
+    `Application is running on: ${await app.getUrl()}, process id: ${process.pid
     }`,
   );
 }

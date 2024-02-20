@@ -7,9 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { typeOrmConfig } from './config/typeorm.config';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { EmailService } from './services/email/email.service';
-import { OtpService } from './utils/otp.service';
-import { EmailModule } from './services/email/email.module';
+import { AddressModule } from './modules/address/address.module';
 
 @Module({
   imports: [
@@ -18,8 +16,9 @@ import { EmailModule } from './services/email/email.module';
     TypeOrmModule.forRoot(typeOrmConfig),
     AuthModule,
     UsersModule,
+    AddressModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
