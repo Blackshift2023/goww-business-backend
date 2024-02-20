@@ -1,12 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe, Query } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { UrlConstant } from 'src/common/constants/UrlConstant';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Product } from './entities/product.entity';
 import { SortEnum } from 'src/common/enum/sort.enum';
-import { QuertDto } from 'src/common/dtos/query.dtos';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { UrlConstant } from 'src/common/constant/UrlConstant';
+import { QuertDto } from 'src/common/dtos/query.dto';
 
 @ApiTags(UrlConstant.PRODUCT)
 @Controller(UrlConstant.PRODUCT)

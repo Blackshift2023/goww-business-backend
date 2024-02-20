@@ -2,8 +2,8 @@ import { DataSource, DeleteResult, FindManyOptions, Like, Repository } from "typ
 import { Product } from "./entities/product.entity";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
-import { QuertDto } from "src/common/dtos/query.dtos";
 import { SortEnum } from "src/common/enum/sort.enum";
+import { QuertDto } from "src/common/dtos/query.dto";
 
 export class ProductRepository extends Repository<Product> {
     constructor(private readonly dataSource: DataSource) {

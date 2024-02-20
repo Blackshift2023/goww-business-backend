@@ -5,7 +5,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { Product } from './entities/product.entity';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { validate } from 'class-validator';
-import { QuertDto } from 'src/common/dtos/query.dtos';
+import { QuertDto } from 'src/common/dtos/query.dto';
 
 @Injectable()
 export class ProductService {

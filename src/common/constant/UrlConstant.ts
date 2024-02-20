@@ -8,4 +8,5 @@ export class UrlConstant {
 
     static CATEGORY: string = 'category';
 
+    static PRODUCT: string = 'product';
 }
