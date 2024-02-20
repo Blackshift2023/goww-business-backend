@@ -1,8 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsEmail, IsIn, IsOptional, IsString, isString } from "class-validator";
-import { UserTypeEnum } from "../enum/user_type.enum";
+import { UserTypeEnum } from "src/modules/users/enum/user_type.enum";
 
-export class CreateUserDto {
+export class CreateAuthDto {
     @ApiProperty({ example: 'groww@businuss.com' })
     @IsEmail()
     @IsOptional()
@@ -17,7 +17,6 @@ export class CreateUserDto {
         enum: [UserTypeEnum.CUSTOMER, UserTypeEnum.ADMIN, UserTypeEnum.OWNER, UserTypeEnum.SUPER_OWNER],
     })
     @IsString()
-    @IsOptional()
     @IsIn([UserTypeEnum.CUSTOMER, UserTypeEnum.ADMIN, UserTypeEnum.OWNER, UserTypeEnum.SUPER_OWNER])
     readonly user_type: string;
 
@@ -27,6 +26,14 @@ export class CreateUserDto {
     readonly company_name: string;
 
     @ApiProperty({ example: 1 })
-    @IsOptional()
-    status: boolean;
+    status: boolean;    
+
+    @ApiProperty({ example: '556655' })
+    @IsString()
+    otp: string;
+
+    @ApiProperty({ example: '$2b$20$cQ25ot5TqAIGn1Pic2rCNenN2aDrFAxk83OKlvioKFskwVwcJ5R8O' })
+    @IsString()
+    token: string;
+    
 }
