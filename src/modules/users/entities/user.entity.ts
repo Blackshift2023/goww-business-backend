@@ -36,9 +36,6 @@ export class User {
   @Column({ type: 'datetime', nullable: true })
   last_login: Date;
 
-  @Column({ type: 'text', nullable: true })
-  token: string;
-
   @Column({ type: 'bool', nullable: true, default: () => 0 })
   status: boolean;
 

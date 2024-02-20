@@ -8,11 +8,18 @@ export class UserRepository extends Repository<User> {
         super(User, dataSource.createEntityManager());
     }
 
-    async isCheckDeleteUser(phone_number, email) {
+    async isDeletedUser(phone_number, email) {
         return await this.createQueryBuilder('user')
             .where("(user.email = :email OR user.phone_number = :phone_number)", { email, phone_number })
             .andWhere("user.deleted_at IS NOT NULL")
-            .getOne(); 
+            .withDeleted()
+            .getOne();
     }
 
+    async doesUserExist(phone_number, email) {
+        return await this.createQueryBuilder('user')
+            .where("(user.email = :email OR user.phone_number = :phone_number)", { email, phone_number })
+            .andWhere("user.deleted_at IS NULL")
+            .getOne();
+    }
 }

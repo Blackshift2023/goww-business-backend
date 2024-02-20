@@ -7,14 +7,17 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { typeOrmConfig } from './config/typeorm.config';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { EmailService } from './services/email/email.service';
+import { OtpService } from './utils/otp.service';
+import { EmailModule } from './services/email/email.module';
 
 @Module({
   imports: [
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(typeOrmConfig),
-    UsersModule,
     AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
