@@ -4,13 +4,12 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/auth.guard';
-import { User } from './entities/user.entity';
 
 @ApiBearerAuth()
 @ApiTags('User')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Public()
   @Post()
@@ -37,7 +36,7 @@ export class UsersController {
   ) {
     return this.usersService.createUser(createUserDto);
   }
-  
+
 
   @Get()
   findAll() {

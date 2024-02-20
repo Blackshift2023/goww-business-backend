@@ -1,16 +1,15 @@
-// src/firebase.service.ts
-
 import { Injectable } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import * as serviceAccountKey from '../../../serviceAccountKey.json'
+
 @Injectable()
 export class FirebaseService {
   constructor() {
     if (!admin.apps.length) {
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccountKey as admin.ServiceAccount),
-    });
-  }
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccountKey as admin.ServiceAccount),
+      });
+    }
   }
   async sendOTP(phoneNumber: string): Promise<void> {
     try {
