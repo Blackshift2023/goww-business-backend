@@ -5,6 +5,8 @@ import { CreateCategoryDto } from "./dto/create-category.dto";
 import { UpdateCategoryDto } from "./dto/update-category.dto";
 import { SortEnum } from "src/common/enum/sort.enum";
 import { QuertDto } from "src/common/dtos/query.dto";
+import { IPaginationMeta, IPaginationOptions, Pagination, paginate } from "nestjs-typeorm-paginate";
+import { DatabaseConatant } from "src/common/constant/database.constant";
 
 @Injectable()
 export class CategoryRepository extends Repository<Category> {
@@ -37,18 +39,21 @@ export class CategoryRepository extends Repository<Category> {
         return category;
     }
 
-    async getAllCategory(query: QuertDto): Promise<Array<Category>> {
-        const { keyword, sort } = query;
+    async getAllCategory(query: QuertDto): Promise<Pagination<Category, IPaginationMeta>> {
+        const { keyword, sort, limit, page } = query;
+
+        const option: IPaginationOptions = {
+            limit: limit || DatabaseConatant.LIMIT,
+            page: page || DatabaseConatant.PAGE
+        };
 
         const qb: SelectQueryBuilder<Category> = this.createQueryBuilder('category');
-
         qb.orderBy('category.updatedDate', sort || SortEnum.ASC);
-
         keyword && qb.andWhere('(category.name LIKE :keyword OR category.description LIKE :keyword)', { keyword: `%${keyword}%` })
-
         qb.loadRelationCountAndMap('category.productCount', 'category.product');
 
-        const allCategory: Array<Category> = await qb.getMany();
+        const allCategory: Pagination<Category, IPaginationMeta> = await paginate<Category>(qb, option);
+
         return allCategory;
     }
 

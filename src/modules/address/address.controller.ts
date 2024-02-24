@@ -3,7 +3,7 @@ import { AddressService } from './address.service';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { UrlConstant } from 'src/common/constant/UrlConstant';
+import { UrlConstant } from 'src/common/constant/url.constant';
 import { Address } from './entities/address.entity';
 
 @ApiTags(UrlConstant.ADDRESS)

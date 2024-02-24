@@ -2,11 +2,12 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, Validation
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { UrlConstant } from 'src/common/constant/UrlConstant';
+import { UrlConstant } from 'src/common/constant/url.constant';
 import { ApiTags } from '@nestjs/swagger';
 import { Category } from './entities/category.entity';
 import { QuertDto } from 'src/common/dtos/query.dto';
 import { Public } from '../auth/auth.guard';
+import { IPaginationMeta, Pagination } from 'nestjs-typeorm-paginate';
 
 @ApiTags(UrlConstant.CATEGORY)
 @Controller(UrlConstant.CATEGORY)
@@ -23,8 +24,8 @@ export class CategoryController {
 
   @Public()
   @Get()
-  async findAll(@Query() queryDto: QuertDto): Promise<Array<Category>> {
-    const getAllCategory: Array<Category> = await this.categoryService.findAll(queryDto);
+  async findAll(@Query() queryDto: QuertDto): Promise<Pagination<Category, IPaginationMeta>> {
+    const getAllCategory: Pagination<Category, IPaginationMeta> = await this.categoryService.findAll(queryDto);
     return getAllCategory;
   }
 

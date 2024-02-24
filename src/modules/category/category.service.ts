@@ -6,6 +6,7 @@ import { validate } from 'class-validator';
 import { CategoryRepository } from './category.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QuertDto } from 'src/common/dtos/query.dto';
+import { IPaginationMeta, Pagination } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class CategoryService {
@@ -20,8 +21,8 @@ export class CategoryService {
     return save;
   }
 
-  async findAll(query: QuertDto): Promise<Array<Category>> {
-    const getAllCategory: Array<Category> = await this.categoryRepository.getAllCategory(query);
+  async findAll(query: QuertDto): Promise<Pagination<Category, IPaginationMeta>> {
+    const getAllCategory: Pagination<Category, IPaginationMeta> = await this.categoryRepository.getAllCategory(query);
     return getAllCategory;
   }
 
