@@ -28,7 +28,7 @@ import { FirebaseService } from 'src/services/firebase/firebase-admin.service';
       global: true,
     }),
     JwtModule.register({
-      signOptions: { expiresIn: '7d' },
+      signOptions: { expiresIn: '1d' },
     }),
     ConfigModule,
   ],
