@@ -4,7 +4,9 @@ import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { SortEnum } from "src/common/enum/sort.enum";
 import { QuertDto } from "src/common/dtos/query.dto";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class ProductRepository extends Repository<Product> {
     constructor(private readonly dataSource: DataSource) {
         super(Product, dataSource.createEntityManager());
@@ -13,18 +15,16 @@ export class ProductRepository extends Repository<Product> {
     async careteProduct(product: CreateProductDto): Promise<Product> {
         const create: Product = this.create({
             name: product.name,
-            description: product.description
+            description: product.description,
+            categoryId: product.categoryId
         });
         const save: Product = await this.save(create);
         return save;
     }
 
     async updateProduct(id: number, product: UpdateProductDto): Promise<Product> {
-        const update: Product = await this.getByIdProduct(id);
-        for (const key in update) {
-            (Object.prototype.hasOwnProperty.call(update, key) && product[key]) &&
-                (update[key] = product[key]);
-        }
+        const getProduct: Product = await this.getByIdProduct(id);
+        const update: Product = Object.assign(getProduct, product);
         const save: Product = await this.save(update);
         return save;
     }

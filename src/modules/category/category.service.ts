@@ -25,8 +25,8 @@ export class CategoryService {
     return getAllCategory;
   }
 
-  async findOne(id: number): Promise<Category> {
-    const getCategory: Category = await this.categoryRepository.getByIdCategory(id);
+  async findOne(id: number, query: QuertDto): Promise<Category> {
+    const getCategory: Category = await this.categoryRepository.getByIdCategory(id, query);
     return getCategory;
   }
 

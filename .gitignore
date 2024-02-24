@@ -130,3 +130,4 @@ dist
 .pnp.*
 
 serviceAccountKey.json
+swagger-spec.json

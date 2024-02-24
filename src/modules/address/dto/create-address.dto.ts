@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsNumber, IsString, MaxLength, MinLength } from "class-validator";
-import { AddressEnum } from "src/common/enum/Address.enum";
+import { AddressEnum } from "src/common/enum/address.enum";
 
 export class CreateAddressDto {
     @ApiProperty({ example: '+91 1111111111' })
