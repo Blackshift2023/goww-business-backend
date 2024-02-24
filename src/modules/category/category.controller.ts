@@ -3,16 +3,17 @@ import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { UrlConstant } from 'src/common/constant/UrlConstant';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { Category } from './entities/category.entity';
 import { QuertDto } from 'src/common/dtos/query.dto';
-import { SortEnum } from 'src/common/enum/sort.enum';
+import { Public } from '../auth/auth.guard';
 
 @ApiTags(UrlConstant.CATEGORY)
 @Controller(UrlConstant.CATEGORY)
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) { }
 
+  @Public()
   @Post()
   @UsePipes(new ValidationPipe())
   async create(@Body() createCategoryDto: CreateCategoryDto): Promise<Category> {
@@ -20,17 +21,17 @@ export class CategoryController {
     return save;
   }
 
+  @Public()
   @Get()
-  @ApiQuery({ name: 'sort', required: false, enum: SortEnum, description: 'Sort the results by column' })
-  @ApiQuery({ name: 'keyword', required: false, description: 'Search keyword' })
   async findAll(@Query() queryDto: QuertDto): Promise<Array<Category>> {
     const getAllCategory: Array<Category> = await this.categoryService.findAll(queryDto);
     return getAllCategory;
   }
 
+  @Public()
   @Get(UrlConstant.PARAM_ID)
-  async findOne(@Param(UrlConstant.ID) id: string): Promise<Category> {
-    const getCategory: Category = await this.categoryService.findOne(+id);
+  async findOne(@Param(UrlConstant.ID) id: string, @Query() queryDto: QuertDto): Promise<Category> {
+    const getCategory: Category = await this.categoryService.findOne(+id, queryDto);
     return getCategory;
   }
 

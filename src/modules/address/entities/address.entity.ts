@@ -1,4 +1,4 @@
-import { AddressEnum } from 'src/common/enum/Address.enum';
+import { AddressEnum } from 'src/common/enum/address.enum';
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()

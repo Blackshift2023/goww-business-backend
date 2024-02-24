@@ -1,18 +1,19 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe, Query } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Product } from './entities/product.entity';
-import { SortEnum } from 'src/common/enum/sort.enum';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { UrlConstant } from 'src/common/constant/UrlConstant';
 import { QuertDto } from 'src/common/dtos/query.dto';
+import { Public } from '../auth/auth.guard';
 
 @ApiTags(UrlConstant.PRODUCT)
 @Controller(UrlConstant.PRODUCT)
 export class ProductController {
   constructor(private readonly productService: ProductService) { }
 
+  @Public()
   @Post()
   @UsePipes(new ValidationPipe())
   async create(@Body() createProductDto: CreateProductDto): Promise<Product> {
@@ -21,8 +22,6 @@ export class ProductController {
   }
 
   @Get()
-  @ApiQuery({ name: 'sort', required: false, enum: SortEnum, description: 'Sort the results by column' })
-  @ApiQuery({ name: 'keyword', required: false, description: 'Search keyword' })
   async findAll(@Query() queryDto: QuertDto): Promise<Array<Product>> {
     const getAllCategory: Array<Product> = await this.productService.findAll(queryDto);
     return getAllCategory;

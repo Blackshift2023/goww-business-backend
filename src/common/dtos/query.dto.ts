@@ -7,4 +7,10 @@ export class QuertDto {
 
     @ApiProperty({ description: 'Search keyword', required: false })
     keyword: string;
+
+    @ApiProperty({
+        description: 'includes', required: false, type: () => [String],
+        isArray: true,
+    })
+    includes: string[]
 }
