@@ -4,7 +4,9 @@ import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { SortEnum } from "src/common/enum/sort.enum";
 import { QuertDto } from "src/common/dtos/query.dto";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class ProductRepository extends Repository<Product> {
     constructor(private readonly dataSource: DataSource) {
         super(Product, dataSource.createEntityManager());
