@@ -1,10 +1,12 @@
-import { DataSource, DeleteResult, FindManyOptions, Like, Repository } from "typeorm";
+import { DataSource, DeleteResult, FindManyOptions, Like, Repository, SelectQueryBuilder } from "typeorm";
 import { Product } from "./entities/product.entity";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { SortEnum } from "src/common/enum/sort.enum";
 import { QuertDto } from "src/common/dtos/query.dto";
 import { Injectable } from "@nestjs/common";
+import { IPaginationMeta, IPaginationOptions, Pagination, paginate } from "nestjs-typeorm-paginate";
+import { DatabaseConatant } from "src/common/constant/database.constant";
 
 @Injectable()
 export class ProductRepository extends Repository<Product> {
@@ -23,33 +25,36 @@ export class ProductRepository extends Repository<Product> {
     }
 
     async updateProduct(id: number, product: UpdateProductDto): Promise<Product> {
-        const getProduct: Product = await this.getByIdProduct(id);
+        const getProduct: Product = await this.findOne({ where: { id } });
         const update: Product = Object.assign(getProduct, product);
         const save: Product = await this.save(update);
         return save;
     }
 
-    async getByIdProduct(id: number): Promise<Product> {
-        const category: Product = await this.findOne({ where: { id } });
+    async getByIdProduct(id: number, query: QuertDto): Promise<Product> {
+        const options: FindManyOptions<Product> = {
+            where: { id }
+        };
+        query && (typeof query.includes === 'string') ? (options.relations = [query.includes]) : query.includes && (options.relations = query.includes);
+        const category: Product = await this.findOne(options);
         return category;
     }
 
-    async getAllProduct(qeury: QuertDto): Promise<Array<Product>> {
-        const { keyword, sort } = qeury;
-        const order = { updatedDate: sort || SortEnum.ASC };
+    async getAllProduct(query: QuertDto): Promise<Pagination<Product, IPaginationMeta>> {
+        const { keyword, sort, limit, page } = query;
 
-        const options: FindManyOptions<Product> = {
-            order,
+        const option: IPaginationOptions = {
+            limit: limit || DatabaseConatant.LIMIT,
+            page: page || DatabaseConatant.PAGE
         };
 
-        if (keyword) {
-            options.where = [
-                { name: Like(`%${keyword}%`) },
-                { description: Like(`%${keyword}%`) },
-            ];
-        }
+        const qb: SelectQueryBuilder<Product> = this.createQueryBuilder('product');
+        qb.orderBy('product.updatedDate', sort || SortEnum.ASC);
+        keyword && qb.andWhere('(product.name LIKE :keyword OR product.description LIKE :keyword)', { keyword: `%${keyword}%` })
+        qb.loadRelationCountAndMap('product.variantCount', 'product.variant');
 
-        const allProduct: Array<Product> = await this.find(options);
+        const allProduct: Pagination<Product, IPaginationMeta> = await paginate<Product>(qb, option);
+
         return allProduct;
     }
 

@@ -25,4 +25,6 @@ export class Product {
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
     updatedDate: Date;
+
+    variantCount: number;
 }

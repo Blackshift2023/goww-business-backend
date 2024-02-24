@@ -6,6 +6,7 @@ import { Product } from './entities/product.entity';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { validate } from 'class-validator';
 import { QuertDto } from 'src/common/dtos/query.dto';
+import { IPaginationMeta, Pagination } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class ProductService {
@@ -19,13 +20,13 @@ export class ProductService {
     return save;
   }
 
-  async findAll(query: QuertDto): Promise<Array<Product>> {
-    const getAllProduct: Array<Product> = await this.productRepository.getAllProduct(query);
+  async findAll(query: QuertDto): Promise<Pagination<Product, IPaginationMeta>> {
+    const getAllProduct: Pagination<Product, IPaginationMeta> = await this.productRepository.getAllProduct(query);
     return getAllProduct;
   }
 
-  async findOne(id: number): Promise<Product> {
-    const getCategory: Product = await this.productRepository.getByIdProduct(id);
+  async findOne(id: number, queryDto: QuertDto): Promise<Product> {
+    const getCategory: Product = await this.productRepository.getByIdProduct(id, queryDto);
     return getCategory;
   }
 

@@ -4,9 +4,10 @@ import { ApiTags } from '@nestjs/swagger';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Product } from './entities/product.entity';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { UrlConstant } from 'src/common/constant/UrlConstant';
+import { UrlConstant } from 'src/common/constant/url.constant';
 import { QuertDto } from 'src/common/dtos/query.dto';
 import { Public } from '../auth/auth.guard';
+import { IPaginationMeta, Pagination } from 'nestjs-typeorm-paginate';
 
 @ApiTags(UrlConstant.PRODUCT)
 @Controller(UrlConstant.PRODUCT)
@@ -21,15 +22,17 @@ export class ProductController {
     return save;
   }
 
+  @Public()
   @Get()
-  async findAll(@Query() queryDto: QuertDto): Promise<Array<Product>> {
-    const getAllCategory: Array<Product> = await this.productService.findAll(queryDto);
+  async findAll(@Query() queryDto: QuertDto): Promise<Pagination<Product, IPaginationMeta>> {
+    const getAllCategory: Pagination<Product, IPaginationMeta> = await this.productService.findAll(queryDto);
     return getAllCategory;
   }
 
+  @Public()
   @Get(UrlConstant.PARAM_ID)
-  async findOne(@Param(UrlConstant.ID) id: string): Promise<Product> {
-    const getCategory: Product = await this.productService.findOne(+id);
+  async findOne(@Param(UrlConstant.ID) id: string, @Query() queryDto: QuertDto): Promise<Product> {
+    const getCategory: Product = await this.productService.findOne(+id, queryDto);
     return getCategory;
   }
 

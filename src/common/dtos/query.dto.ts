@@ -12,5 +12,11 @@ export class QuertDto {
         description: 'includes', required: false, type: () => [String],
         isArray: true,
     })
-    includes: string[]
+    includes: string[];
+
+    @ApiProperty({ description: 'limit', required: false, default: 10 })
+    limit: number;
+
+    @ApiProperty({ description: 'page', required: false, default: 1 })
+    page: number;
 }
